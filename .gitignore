@@ -1,0 +1,8 @@
+# Ignore the take-home PDF
+iOS_Take-home_task.pdf
+
+# Ignore Xcode-specific files
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
