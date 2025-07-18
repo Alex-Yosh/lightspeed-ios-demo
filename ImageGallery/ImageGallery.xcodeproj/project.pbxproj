@@ -30,9 +30,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		FA75AEBE2E299BCF00DE609B /* ImageGallery */ = {
+		FA75AEBE2E299BCF00DE609B /* PhotoGallery */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ImageGallery;
+			path = PhotoGallery;
 			sourceTree = "<group>";
 		};
 		FA75AED12E299BD300DE609B /* ImageGalleryTests */ = {
@@ -75,7 +75,7 @@
 		FA75AEB32E299BCE00DE609B = {
 			isa = PBXGroup;
 			children = (
-				FA75AEBE2E299BCF00DE609B /* ImageGallery */,
+				FA75AEBE2E299BCF00DE609B /* PhotoGallery */,
 				FA75AED12E299BD300DE609B /* ImageGalleryTests */,
 				FA75AEDB2E299BD400DE609B /* ImageGalleryUITests */,
 				FA75AEBD2E299BCF00DE609B /* Products */,
@@ -108,7 +108,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				FA75AEBE2E299BCF00DE609B /* ImageGallery */,
+				FA75AEBE2E299BCF00DE609B /* PhotoGallery */,
 			);
 			name = ImageGallery;
 			packageProductDependencies = (

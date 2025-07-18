@@ -13,7 +13,10 @@ struct ImageGalleryApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let imageManager = ImageManager(context: persistenceController.container.viewContext)
+            let viewModel = ImageGalleryViewModel(imageManager: imageManager)
+            
+            ContentView(viewModel: viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

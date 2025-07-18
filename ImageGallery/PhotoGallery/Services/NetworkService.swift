@@ -1,0 +1,34 @@
+//
+//  NetworkService.swift
+//  ImageGallery
+//
+//  Created by Alex Yoshida on 2025-07-17.
+//
+
+import Foundation
+
+protocol NetworkServiceProtocol {
+    func fetchImages() async throws -> [PicsumPhoto]
+}
+
+final class NetworkService: NetworkServiceProtocol {
+    private let baseURL = "https://picsum.photos/v2/list"
+    
+    func fetchImages() async throws -> [PicsumPhoto] {
+        guard let url = URL(string: baseURL) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        do {
+            return try JSONDecoder().decode([PicsumPhoto].self, from: data)
+        } catch {
+            throw URLError(.cannotDecodeRawData)
+        }
+    }
+}
