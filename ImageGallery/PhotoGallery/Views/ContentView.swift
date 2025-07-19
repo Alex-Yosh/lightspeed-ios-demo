@@ -8,23 +8,20 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject var viewModel: ImageGalleryViewModel
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \PhotoItem.id, ascending: true)],
-        animation: .default)
-    private var savedPhotos: FetchedResults<PhotoItem>
-    
-    init(viewModel: ImageGalleryViewModel) {
-        self.viewModel = viewModel
-    }
+struct ContentView<ViewModel: ImageGalleryViewModelProtocol>: View {
+    @StateObject var viewModel: ViewModel
 
     var body: some View {
-        NavigationView {
-            Text("Select an item")
-        }.task {
+        VStack {
+            if viewModel.images == []{
+                Text("already added")
+            }else{
+                ForEach(viewModel.images, id: \.self){ image in
+                    Text(image.author)
+                }
+            }
+        }
+        .task {
             await viewModel.fetchRandomImage()
         }
     }
@@ -32,9 +29,8 @@ struct ContentView: View {
 
 #Preview {
     let context = PersistenceController.preview.container.viewContext
-    let imageManager = ImageManager(context: context)
-    let viewModel = ImageGalleryViewModel(imageManager: imageManager)
+    let viewModel = ImageGalleryViewModel(context: context)
     
     ContentView(viewModel: viewModel)
-        .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, context)
 }

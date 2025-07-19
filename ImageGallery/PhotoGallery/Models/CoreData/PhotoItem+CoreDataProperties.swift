@@ -16,12 +16,12 @@ extension PhotoItem {
         return NSFetchRequest<PhotoItem>(entityName: "PhotoItem")
     }
 
-    @NSManaged public var id: String?
-    @NSManaged public var author: String?
+    @NSManaged public var id: String
+    @NSManaged public var author: String
     @NSManaged public var width: Int32
     @NSManaged public var height: Int32
-    @NSManaged public var url: String?
-    @NSManaged public var downloadURL: String?
+    @NSManaged public var url: String
+    @NSManaged public var downloadURL: String
 
 }
 

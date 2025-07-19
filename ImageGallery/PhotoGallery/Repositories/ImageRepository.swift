@@ -1,5 +1,5 @@
 //
-//  ImageManager.swift
+//  ImageRepository.swift
 //  ImageGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
@@ -8,7 +8,15 @@
 import Foundation
 import CoreData
 
-class ImageManager {
+protocol ImageRepositoryProtocol {
+    func fetchAndSaveRandomImage() async throws
+    func fetchAllSavedPhotos() throws -> [PhotoItem]
+    func deletePhoto(_ photo: PhotoItem) throws
+    func deletePhotos(at indices: IndexSet, from photos: [PhotoItem]) throws
+    func reorderPhotos(from source: Int, to destination: Int, in photos: inout [PhotoItem]) throws
+}
+
+class ImageRepository: ImageRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let context: NSManagedObjectContext
     
@@ -22,7 +30,7 @@ class ImageManager {
         let photos = try await networkService.fetchImages()
         
         guard !photos.isEmpty else {
-            throw ImageManagerError.noPhotosAvailable
+            throw ImageRepositoryError.noPhotosAvailable
         }
         
         // 2. Filter out duplicates
@@ -31,12 +39,11 @@ class ImageManager {
         
         // 3. Check if we have any new photos available
         guard let randomPhoto = availablePhotos.randomElement() else {
-            throw ImageManagerError.allPhotosAlreadySaved
+            throw ImageRepositoryError.allPhotosAlreadySaved
         }
         
         // 4. Create PhotoItem
         let _ = PhotoItem(from: randomPhoto, context: context)
-        print(randomPhoto.author)
         
         // 5. Save to Core Data
         try context.save()
@@ -44,9 +51,20 @@ class ImageManager {
     
     func fetchAllSavedPhotos() throws -> [PhotoItem] {
         let fetchRequest: NSFetchRequest<PhotoItem> = PhotoItem.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         
         return try context.fetch(fetchRequest)
+    }
+    
+    func deletePhoto(_ photo: PhotoItem) throws {
+        // TODO: Implement
+    }
+    
+    func deletePhotos(at indices: IndexSet, from photos: [PhotoItem]) throws {
+        // TODO: Implement
+    }
+    
+    func reorderPhotos(from source: Int, to destination: Int, in photos: inout [PhotoItem]) throws {
+        // TODO: Implement
     }
     
     // MARK: - Helpers
@@ -58,7 +76,7 @@ class ImageManager {
     }
 }
 
-enum ImageManagerError: Error {
+enum ImageRepositoryError: Error {
     case noPhotosAvailable
     case allPhotosAlreadySaved
     case saveFailed

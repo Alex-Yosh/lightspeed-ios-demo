@@ -9,15 +9,14 @@ import SwiftUI
 
 @main
 struct ImageGalleryApp: App {
-    let persistenceController = PersistenceController.shared
+    let persistantContext = PersistenceController.shared.container.viewContext
 
     var body: some Scene {
         WindowGroup {
-            let imageManager = ImageManager(context: persistenceController.container.viewContext)
-            let viewModel = ImageGalleryViewModel(imageManager: imageManager)
+            let viewModel = ImageGalleryViewModel(context: persistantContext)
             
             ContentView(viewModel: viewModel)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, persistantContext)
         }
     }
 }
