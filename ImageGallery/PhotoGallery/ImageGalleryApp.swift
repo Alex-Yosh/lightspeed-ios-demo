@@ -15,7 +15,7 @@ struct ImageGalleryApp: App {
         WindowGroup {
             let viewModel = ImageGalleryViewModel(context: persistantContext)
             
-            ContentView(viewModel: viewModel)
+            ImagGallery(viewModel: viewModel)
                 .environment(\.managedObjectContext, persistantContext)
         }
     }
