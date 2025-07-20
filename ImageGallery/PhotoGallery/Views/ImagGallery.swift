@@ -15,9 +15,48 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
         GridItem(.flexible()),
         GridItem(.flexible()),
     ]
-
+    
     var body: some View {
         VStack() {
+            // Header
+            VStack(spacing: 12) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Gallery")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Text("\(viewModel.images.count) photos")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    
+                    Button(action: {
+                        
+                    }) {
+                        Text("Edit")
+                    }
+                }
+                
+                Button(action: {
+                    Task { await viewModel.fetchRandomImage() }
+                }) {
+                    HStack {
+                        Image(systemName: "camera.fill")
+                        Text("Add Random Photo")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
+            .background(Color(.systemBackground))
+            
+            // Photos
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.images, id: \.self) { photo in
@@ -25,10 +64,10 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+                .padding(.vertical, 8)
             }
+            .background(Color(.systemGroupedBackground))
         }
-        .background(Color(.systemBackground))
     }
 }
 
