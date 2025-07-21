@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "43EABE3E-E267-4965-BEE1-85C7819333AF",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:PhotoGallery.xcodeproj",
+        "identifier" : "FA75AECD2E299BD300DE609B",
+        "name" : "PhotoGalleryTests"
+      }
+    }
+  ],
+  "version" : 1
+}

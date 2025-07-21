@@ -33,15 +33,14 @@ final class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
     private let photoRepository: PhotoRepositoryProtocol
     private var gallery: Gallery?
     
-    init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext, repository: PhotoRepositoryProtocol? = nil) {
         self.context = context
-        self.photoRepository = PhotoRepository(context: context)
-        
+        self.photoRepository = repository ?? PhotoRepository(context: context)
+
         // Setup observers and load initial data
         setupDataObservation()
         loadInitialData()
     }
-    
     
     // MARK: - Actions
     

@@ -49,7 +49,8 @@ struct PersistenceController {
         
         // Insert photos as PhotoItem into the gallery
         for picsumPhoto in samplePicsumPhotos {
-            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
+            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext)
+            photoItem.gallery = defaultGallery
             defaultGallery.addPhoto(photoItem)
         }
         
