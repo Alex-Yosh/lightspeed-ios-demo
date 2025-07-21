@@ -13,7 +13,11 @@ import CoreData
 public class Gallery: NSManagedObject {
     
     convenience init(context: NSManagedObjectContext) {
-        self.init(entity: Gallery.entity(), insertInto: context)
+        guard let entity = NSEntityDescription.entity(forEntityName: "Gallery", in: context) else {
+            fatalError("Failed to find the Gallery entity")
+        }
+
+        self.init(entity: entity, insertInto: context)
     }
     
     func addPhoto(_ photo: PhotoItem) {

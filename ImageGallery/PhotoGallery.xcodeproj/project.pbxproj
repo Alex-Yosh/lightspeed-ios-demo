@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA526B502E2DF58F00996E7A /* LoadingButton in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B4F2E2DF58F00996E7A /* LoadingButton */; };
+		FA526B532E2DF5B200996E7A /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B522E2DF5B200996E7A /* ActivityIndicatorView */; };
+		FA526B562E2DF5F100996E7A /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B552E2DF5F100996E7A /* PopupView */; };
 		FA75AF762E2D4EB600DE609B /* SwiftUIReorderableForEach in Frameworks */ = {isa = PBXBuildFile; productRef = FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */; };
 /* End PBXBuildFile section */
 
@@ -56,7 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA526B562E2DF5F100996E7A /* PopupView in Frameworks */,
 				FA75AF762E2D4EB600DE609B /* SwiftUIReorderableForEach in Frameworks */,
+				FA526B532E2DF5B200996E7A /* ActivityIndicatorView in Frameworks */,
+				FA526B502E2DF58F00996E7A /* LoadingButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +124,9 @@
 			name = PhotoGallery;
 			packageProductDependencies = (
 				FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */,
+				FA526B4F2E2DF58F00996E7A /* LoadingButton */,
+				FA526B522E2DF5B200996E7A /* ActivityIndicatorView */,
+				FA526B552E2DF5F100996E7A /* PopupView */,
 			);
 			productName = ImageGallery;
 			productReference = FA75AEBC2E299BCF00DE609B /* PhotoGallery.app */;
@@ -203,6 +212,9 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */,
+				FA526B4E2E2DF58F00996E7A /* XCRemoteSwiftPackageReference "LoadingButton" */,
+				FA526B512E2DF5B200996E7A /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+				FA526B542E2DF5F100996E7A /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FA75AEBD2E299BCF00DE609B /* Products */;
@@ -569,6 +581,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FA526B4E2E2DF58F00996E7A /* XCRemoteSwiftPackageReference "LoadingButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Changemin/LoadingButton";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
+		FA526B512E2DF5B200996E7A /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+		FA526B542E2DF5F100996E7A /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.11;
+			};
+		};
 		FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/globulus/swiftui-reorderable-foreach";
@@ -580,6 +616,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FA526B4F2E2DF58F00996E7A /* LoadingButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA526B4E2E2DF58F00996E7A /* XCRemoteSwiftPackageReference "LoadingButton" */;
+			productName = LoadingButton;
+		};
+		FA526B522E2DF5B200996E7A /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA526B512E2DF5B200996E7A /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+		FA526B552E2DF5F100996E7A /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA526B542E2DF5F100996E7A /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */;

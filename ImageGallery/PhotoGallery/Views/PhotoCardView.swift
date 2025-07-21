@@ -7,6 +7,8 @@
 
 
 import SwiftUI
+import ActivityIndicatorView
+import CoreData
 
 struct PhotoCardView: View {
     let photo: PhotoItem
@@ -24,8 +26,8 @@ struct PhotoCardView: View {
                             .fill(Color.gray.opacity(0.1))
                             .aspectRatio(1.2, contentMode: .fit)
                             .overlay(
-                                ProgressView()
-                                    .scaleEffect(0.8)
+                                ActivityIndicatorView(isVisible: .constant(true), type: .growingArc(.blue, lineWidth: 3))
+                                    .frame(width: 30, height: 30)
                             )
                     case .success(let image):
                         image
@@ -118,22 +120,17 @@ struct PhotoCardView: View {
 #Preview {
     let context = PersistenceController.preview.container.viewContext
     
-    // test working and failing Photos
-    let samplePicsumPhoto = PersistenceController.samplePhotos[0]
-    let workingPhoto = PhotoItem(from: samplePicsumPhoto, context: context)
+    let request: NSFetchRequest<PhotoItem> = PhotoItem.fetchRequest()
     
-    let failedPhoto = PhotoItem(context: context)
-    failedPhoto.id = "error"
-    failedPhoto.author = "Test Error"
-    failedPhoto.downloadURL = "invalid-url"
-    failedPhoto.width = 1920
-    failedPhoto.height = 1080
-    
-    return VStack(spacing: 16) {
-        PhotoCardView(photo: workingPhoto, isEditMode: false)
-        
-        PhotoCardView(photo: failedPhoto, isEditMode: true)
+    if let photo = try? context.fetch(request).first {
+        VStack(spacing: 16) {
+            PhotoCardView(photo: photo, isEditMode: false)
+            PhotoCardView(photo: photo, isEditMode: true)
+        }
+        .padding()
+        .background(Color(.systemGroupedBackground))
+    } else {
+        Text("Not loading")
     }
-    .padding()
-    .background(Color(.systemGroupedBackground))
 }
+

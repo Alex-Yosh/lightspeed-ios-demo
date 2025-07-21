@@ -76,11 +76,20 @@ class PhotoRepository: PhotoRepositoryProtocol {
     }
     
     func deletePhoto(_ photo: PhotoItem) async throws {
-        if let gallery = photo.gallery {
-            gallery.removePhoto(photo)
+        do {
+            if let gallery = photo.gallery {
+                gallery.removePhoto(photo)
+            }
+            
+            // Delete individual photo after removing from gallery
+            context.delete(photo)
+            try context.save()
+            
+        } catch _ as NSError {
+            // Reset
+            context.rollback()
+            throw PhotoRepositoryError.deletePhotoFailed
         }
-        context.delete(photo)
-        try context.save()
     }
     
     func exitEditMode(currentPhotos: [PhotoItem], gallery: Gallery) throws {
@@ -111,8 +120,25 @@ class PhotoRepository: PhotoRepositoryProtocol {
     }
 }
 
-enum PhotoRepositoryError: Error {
+enum PhotoRepositoryError: Error, LocalizedError {
     case noPhotosAvailable
     case allPhotosAlreadySaved
-    case saveFailed
+    case deletePhotoFailed
+    case photoNotFound
+    case galleryUpdateFailed
+    
+    var errorDescription: String? {
+        switch self {
+        case .noPhotosAvailable:
+            return "No photos available from PicSum"
+        case .allPhotosAlreadySaved:
+            return "All available photos have been added to your gallery"
+        case .deletePhotoFailed:
+            return "Unable to delete photo. Please try again."
+        case .photoNotFound:
+            return "Photo not found. It may have already been deleted."
+        case .galleryUpdateFailed:
+            return "Unable to update gallery. Please try again."
+        }
+    }
 }

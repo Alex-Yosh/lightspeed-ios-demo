@@ -19,6 +19,7 @@ protocol PhotoGalleryViewModelProtocol: ObservableObject {
     func fetchRandomPhoto() async
     func deletePhoto(_ photo: PhotoItem) async
     func toggleEditMode()
+    func clearError()
 }
 
 @MainActor
@@ -69,6 +70,10 @@ final class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
         if !isEditMode {
             exitEditMode()
         }
+    }
+    
+    func clearError() {
+        errorMessage = nil
     }
     
     // MARK: - UI Setup
