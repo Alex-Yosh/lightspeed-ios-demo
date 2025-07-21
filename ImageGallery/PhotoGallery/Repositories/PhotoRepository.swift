@@ -1,6 +1,6 @@
 //
-//  ImageRepository.swift
-//  ImageGallery
+//  PhotoRepository.swift
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-protocol ImageRepositoryProtocol {
-    func fetchAndSaveRandomImage() async throws
+protocol PhotoRepositoryProtocol {
+    func fetchAndSaveRandomPhoto() async throws
     func fetchGallery() throws -> Gallery
     func deletePhoto(_ photo: PhotoItem) async throws
     func exitEditMode(currentPhotos: [PhotoItem], gallery: Gallery) throws
@@ -17,7 +17,7 @@ protocol ImageRepositoryProtocol {
     func startObservingDataChanges(onDataChanged: @escaping () -> Void)
 }
 
-class ImageRepository: ImageRepositoryProtocol {
+class PhotoRepository: PhotoRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let context: NSManagedObjectContext
     private var dataChangeObserver: NSObjectProtocol?
@@ -34,12 +34,12 @@ class ImageRepository: ImageRepositoryProtocol {
         }
     }
 
-    func fetchAndSaveRandomImage() async throws {
-        // 1. Fetch images
-        let photos = try await networkService.fetchImages()
+    func fetchAndSaveRandomPhoto() async throws {
+        // 1. Fetch photos
+        let photos = try await networkService.fetchPhotos()
         
         guard !photos.isEmpty else {
-            throw ImageRepositoryError.noPhotosAvailable
+            throw PhotoRepositoryError.noPhotosAvailable
         }
         
         // 2. Filter out duplicates
@@ -48,7 +48,7 @@ class ImageRepository: ImageRepositoryProtocol {
         
         // 3. Check if we have any new photos available
         guard let randomPhoto = availablePhotos.randomElement() else {
-            throw ImageRepositoryError.allPhotosAlreadySaved
+            throw PhotoRepositoryError.allPhotosAlreadySaved
         }
         
         // 4. Get or create gallery
@@ -111,7 +111,7 @@ class ImageRepository: ImageRepositoryProtocol {
     }
 }
 
-enum ImageRepositoryError: Error {
+enum PhotoRepositoryError: Error {
     case noPhotosAvailable
     case allPhotosAlreadySaved
     case saveFailed

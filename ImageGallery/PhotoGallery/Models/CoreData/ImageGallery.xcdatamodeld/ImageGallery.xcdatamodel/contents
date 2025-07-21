@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24F74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Gallery" representedClassName="Gallery" syncable="YES">
-        <relationship name="photos" optional="YES" toMany="YES" ordered="YES" deletionRule="Cascade" destinationEntity="PhotoItem" inverseName="gallery" inverseEntity="PhotoItem"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PhotoItem" inverseName="gallery" inverseEntity="PhotoItem"/>
     </entity>
     <entity name="PhotoItem" representedClassName="PhotoItem" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String"/>

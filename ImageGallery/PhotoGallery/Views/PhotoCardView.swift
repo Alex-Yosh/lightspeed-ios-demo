@@ -1,6 +1,6 @@
 //
-//  ImageCardView.swift
-//  ImageGallery
+//  PhotoCardView.swift
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-20.
 //
@@ -8,16 +8,16 @@
 
 import SwiftUI
 
-struct ImageCardView: View {
+struct PhotoCardView: View {
     let photo: PhotoItem
     var isEditMode: Bool = false
     var onDelete: (() -> Void)? = nil
     
     var body: some View {
         VStack(spacing: 0) {
-            // Image Section
-            if let imageURL = URL(string: photo.downloadURL) {
-                AsyncImage(url: imageURL) { phase in
+            // Photo Section
+            if let photoURL = URL(string: photo.downloadURL) {
+                AsyncImage(url: photoURL) { phase in
                     switch phase {
                     case .empty:
                         RoundedRectangle(cornerRadius: 8)
@@ -118,7 +118,7 @@ struct ImageCardView: View {
 #Preview {
     let context = PersistenceController.preview.container.viewContext
     
-    // test working and failing images
+    // test working and failing Photos
     let samplePicsumPhoto = PersistenceController.samplePhotos[0]
     let workingPhoto = PhotoItem(from: samplePicsumPhoto, context: context)
     
@@ -130,9 +130,9 @@ struct ImageCardView: View {
     failedPhoto.height = 1080
     
     return VStack(spacing: 16) {
-        ImageCardView(photo: workingPhoto, isEditMode: false)
+        PhotoCardView(photo: workingPhoto, isEditMode: false)
         
-        ImageCardView(photo: failedPhoto, isEditMode: true)
+        PhotoCardView(photo: failedPhoto, isEditMode: true)
     }
     .padding()
     .background(Color(.systemGroupedBackground))

@@ -1,6 +1,6 @@
 //
-//  ImageGalleryViewModel.swift
-//  ImageGallery
+//  PhotoGalleryViewModel.swift
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -10,31 +10,31 @@ import CoreData
 import SwiftUI
 
 @MainActor
-protocol ImageGalleryViewModelProtocol: ObservableObject {
-    var images: [PhotoItem] { get set }
+protocol PhotoGalleryViewModelProtocol: ObservableObject {
+    var photos: [PhotoItem] { get set }
     var isLoading: Bool { get }
     var errorMessage: String? { get }
     var isEditMode: Bool { get set }
     
-    func fetchRandomImage() async
+    func fetchRandomPhoto() async
     func deletePhoto(_ photo: PhotoItem) async
     func toggleEditMode()
 }
 
 @MainActor
-final class ImageGalleryViewModel: ImageGalleryViewModelProtocol {
+final class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
-    @Published var images: [PhotoItem] = []
+    @Published var photos: [PhotoItem] = []
     @Published var isEditMode: Bool = false
 
     private let context: NSManagedObjectContext
-    private let imageRepository: ImageRepositoryProtocol
+    private let photoRepository: PhotoRepositoryProtocol
     private var gallery: Gallery?
     
     init(context: NSManagedObjectContext) {
         self.context = context
-        self.imageRepository = ImageRepository(context: context)
+        self.photoRepository = PhotoRepository(context: context)
         
         // Setup observers and load initial data
         setupDataObservation()
@@ -44,11 +44,11 @@ final class ImageGalleryViewModel: ImageGalleryViewModelProtocol {
     
     // MARK: - Actions
     
-    func fetchRandomImage() async {
+    func fetchRandomPhoto() async {
         isLoading = true
         
         do {
-            try await imageRepository.fetchAndSaveRandomImage()
+            try await photoRepository.fetchAndSaveRandomPhoto()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -58,7 +58,7 @@ final class ImageGalleryViewModel: ImageGalleryViewModelProtocol {
     
     func deletePhoto(_ photo: PhotoItem) async {
         do {
-            try await imageRepository.deletePhoto(photo)
+            try await photoRepository.deletePhoto(photo)
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -74,14 +74,14 @@ final class ImageGalleryViewModel: ImageGalleryViewModelProtocol {
     // MARK: - UI Setup
     
     private func setupDataObservation() {
-        imageRepository.startObservingDataChanges { [weak self] in
+        photoRepository.startObservingDataChanges { [weak self] in
             self?.refreshUI()
         }
     }
     
     private func loadInitialData() {
         do {
-            gallery = try imageRepository.fetchGallery()
+            gallery = try photoRepository.fetchGallery()
             refreshUI()
         } catch {
             errorMessage = error.localizedDescription
@@ -90,14 +90,14 @@ final class ImageGalleryViewModel: ImageGalleryViewModelProtocol {
     
     private func refreshUI() {
         guard let gallery = gallery else { return }
-        images = imageRepository.getCurrentPhotos(from: gallery)
+        photos = photoRepository.getCurrentPhotos(from: gallery)
     }
     
     private func exitEditMode() {
         guard let gallery = gallery else { return }
         
         do {
-            try imageRepository.exitEditMode(currentPhotos: images, gallery: gallery)
+            try photoRepository.exitEditMode(currentPhotos: photos, gallery: gallery)
         } catch {
             errorMessage = error.localizedDescription
         }

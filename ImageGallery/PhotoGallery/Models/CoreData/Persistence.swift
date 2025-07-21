@@ -1,6 +1,6 @@
 //
 //  Persistence.swift
-//  ImageGallery
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -10,31 +10,31 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
     
-    // Expose sample photos for preview use
+    // Expose sample Photos for preview use
     static let samplePhotos = [
         PicsumPhoto(
             id: "0",
             author: "Alejandro Escamilla",
             width: 5000,
             height: 3333,
-            url: "https://unsplash.com/photos/yC-Yzbqy7PY",
-            downloadURL: "https://picsum.photos/id/0/5000/3333"
+            url: "https://unsplash.com/Photos/yC-Yzbqy7PY",
+            downloadURL: "https://picsum.Photos/id/0/5000/3333"
         ),
         PicsumPhoto(
             id: "1",
             author: "Alejandro Escamilla",
             width: 5000,
             height: 3333,
-            url: "https://unsplash.com/photos/LNRyGwIJr5c",
-            downloadURL: "https://picsum.photos/id/1/5000/3333"
+            url: "https://unsplash.com/Photos/LNRyGwIJr5c",
+            downloadURL: "https://picsum.Photos/id/1/5000/3333"
         ),
         PicsumPhoto(
             id: "10",
             author: "Paul Jarvis",
             width: 2500,
             height: 1667,
-            url: "https://unsplash.com/photos/6J--NXulQCs",
-            downloadURL: "https://picsum.photos/id/10/2500/1667"
+            url: "https://unsplash.com/Photos/6J--NXulQCs",
+            downloadURL: "https://picsum.Photos/id/10/2500/1667"
         )
     ]
     
@@ -47,8 +47,8 @@ struct PersistenceController {
         let defaultGallery = Gallery(context: viewContext)
         
         for picsumPhoto in samplePhotos {
-            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
-            defaultGallery.addPhoto(photoItem)
+            let PhotoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
+            defaultGallery.addPhoto(PhotoItem)
         }
         
         do {

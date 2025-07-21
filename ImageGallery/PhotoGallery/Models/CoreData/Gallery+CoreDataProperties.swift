@@ -1,6 +1,6 @@
 //
 //  Gallery+CoreDataProperties.swift
-//  ImageGallery
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-20.
 //

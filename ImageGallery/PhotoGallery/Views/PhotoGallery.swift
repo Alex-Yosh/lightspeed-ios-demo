@@ -1,6 +1,6 @@
 //
-//  ImageGallery.swift
-//  ImageGallery
+//  PhotoGallery.swift
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 import SwiftUIReorderableForEach
 
-struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
+struct PhotoGallery<ViewModel: PhotoGalleryViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
     
     let columns = [
@@ -18,7 +18,7 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
     ]
     
     private var photoCountText: String {
-        "\(viewModel.images.count) photos"
+        "\(viewModel.photos.count) photos"
     }
     
     private var editButtonText: String {
@@ -56,7 +56,7 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
                 }
                 
                 Button(action: {
-                    Task { await viewModel.fetchRandomImage() }
+                    Task { await viewModel.fetchRandomPhoto() }
                 }) {
                     HStack {
                         if viewModel.isLoading {
@@ -84,10 +84,10 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ReorderableForEach(
-                        $viewModel.images,
+                        $viewModel.photos,
                         allowReordering: $viewModel.isEditMode
                     ) { photo, isDragging in
-                        ImageCardView(
+                        PhotoCardView(
                             photo: photo,
                             isEditMode: viewModel.isEditMode,
                             onDelete: {
@@ -111,8 +111,8 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
 #Preview {
     let persistence = PersistenceController.preview
     let context = persistence.container.viewContext
-    let viewModel = ImageGalleryViewModel(context: context)
+    let viewModel = PhotoGalleryViewModel(context: context)
     
-    ImagGallery(viewModel: viewModel)
+    PhotoGallery(viewModel: viewModel)
         .environment(\.managedObjectContext, context)
 }
