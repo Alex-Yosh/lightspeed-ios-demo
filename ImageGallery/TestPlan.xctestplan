@@ -18,6 +18,13 @@
         "identifier" : "FA75AECD2E299BD300DE609B",
         "name" : "PhotoGalleryTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:PhotoGallery.xcodeproj",
+        "identifier" : "FA75AED72E299BD400DE609B",
+        "name" : "PhotoGalleryUITests"
+      }
     }
   ],
   "version" : 1

@@ -32,6 +32,7 @@ struct FloatingActionButton: View {
         .shadow(color: .blue.opacity(0.4), radius: 12, x: 0, y: 6)
         .padding(.trailing, 20)
         .padding(.bottom, 20)
+        .accessibilityIdentifier("floating_action_button")
     }
 }
 

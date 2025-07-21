@@ -10,7 +10,13 @@ import SwiftUI
 @main
 struct PhotoGalleryApp: App {
     let persistantContext = PersistenceController.shared.container.viewContext
-
+    
+    init() {
+        if CommandLine.arguments.contains("--ui-testing") {
+            PersistenceController.shared.reset()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             let viewModel = PhotoGalleryViewModel(context: persistantContext)

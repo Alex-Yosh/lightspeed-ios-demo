@@ -36,6 +36,7 @@ struct PhotoGalleryHeader: View {
                 Button(action: onToggleEditMode) {
                     Text(editButtonText)
                 }
+                .accessibilityIdentifier("edit_mode_button")
             }
         }
         .padding(.horizontal, 16)

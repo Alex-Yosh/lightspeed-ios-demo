@@ -27,15 +27,31 @@ struct PhotoGrid: View {
                     $photos,
                     allowReordering: .constant(isEditMode)
                 ) { photo, isDragging in
-                    PhotoCardView(
-                        photo: photo,
-                        isEditMode: isEditMode,
-                        onDelete: {
-                            onDeletePhoto(photo)
+                    ZStack(alignment: .topLeading) {
+                        PhotoCardView(
+                            photo: photo,
+                            isEditMode: isEditMode,
+                            onDelete: {
+                                onDeletePhoto(photo)
+                            }
+                        )
+                        .scaleEffect(isDragging ? 1.05 : 1.0)
+                        .opacity(isDragging ? 0.7 : 1.0)
+                        .accessibilityIdentifier("photo_card_\(photo.id)")
+                        
+                        if isEditMode {
+                            Button(action: { onDeletePhoto(photo) }) {
+                                Image(systemName: "minus.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.red)
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                                    .frame(width: 24, height: 24)
+                            }
+                            .accessibilityIdentifier("delete_button_\(photo.id)")
+                            .accessibilityLabel("Delete photo")
                         }
-                    )
-                    .scaleEffect(isDragging ? 1.05 : 1.0)
-                    .opacity(isDragging ? 0.7 : 1.0)
+                    }
                 }
             }
             .padding(.horizontal, 16)
@@ -43,6 +59,7 @@ struct PhotoGrid: View {
             .padding(.bottom, 80)
         }
         .background(Color(.systemGroupedBackground))
+        .accessibilityElement(children: .contain)
     }
 }
 
