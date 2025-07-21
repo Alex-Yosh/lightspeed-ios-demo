@@ -13,7 +13,7 @@ struct PersistenceController {
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-
+        
         viewContext.automaticallyMergesChangesFromParent = true
         
         // Sample Photos for previews
@@ -49,7 +49,8 @@ struct PersistenceController {
         
         // Insert photos as PhotoItem into the gallery
         for picsumPhoto in samplePicsumPhotos {
-            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
+            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext)
+            photoItem.gallery = defaultGallery
             defaultGallery.addPhoto(photoItem)
         }
         
@@ -78,5 +79,24 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    
+    func reset() {
+        let context = container.viewContext
+        
+        let photoFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PhotoItem")
+        let galleryFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Gallery")
+        
+        let photoDeleteRequest = NSBatchDeleteRequest(fetchRequest: photoFetch)
+        let galleryDeleteRequest = NSBatchDeleteRequest(fetchRequest: galleryFetch)
+        
+        do {
+            try context.execute(photoDeleteRequest)
+            try context.execute(galleryDeleteRequest)
+            try context.save()
+        } catch {
+            print("Failed to reset Core Data: \(error)")
+        }
     }
 }

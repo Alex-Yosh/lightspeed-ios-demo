@@ -37,13 +37,13 @@ struct PhotoCardView: View {
                             .clipped()
                     case .failure(_):
                         RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.red.opacity(0.1))
-                                .aspectRatio(1.2, contentMode: .fit)
-                                .overlay(
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .foregroundColor(.red)
-                                        .font(.title2)
-                                )
+                            .fill(Color.red.opacity(0.1))
+                            .aspectRatio(1.2, contentMode: .fit)
+                            .overlay(
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.red)
+                                    .font(.title2)
+                            )
                     @unknown default:
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color.red.opacity(0.1))
@@ -92,28 +92,11 @@ struct PhotoCardView: View {
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
-        .overlay(
-            // delete button on edit
-            Group {
-                if isEditMode {
-                    Button(action: {
-                        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                        impactFeedback.impactOccurred()
-                        onDelete?()
-                    }) {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundColor(.red)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    }
-                    .offset(x: -8, y: -8)
-                    .transition(.scale.combined(with: .opacity))
-                }
-            },
-            alignment: .topLeading
-        )
         .scaleEffect(isEditMode ? 0.92 : 1.0)
         .modifier(WiggleEffect(isWiggling: isEditMode))
+        .accessibilityIdentifier("photo_card")
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Photo by \(photo.author)")
     }
 }
 

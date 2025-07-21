@@ -31,7 +31,7 @@ struct ErrorPopup: ViewModifier {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                     
-                    Button("Done") {
+                    Button("Dismiss") {
                         isPresented = false
                         onDismiss()
                     }

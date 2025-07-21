@@ -10,6 +10,9 @@
 		FA526B502E2DF58F00996E7A /* LoadingButton in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B4F2E2DF58F00996E7A /* LoadingButton */; };
 		FA526B532E2DF5B200996E7A /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B522E2DF5B200996E7A /* ActivityIndicatorView */; };
 		FA526B562E2DF5F100996E7A /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = FA526B552E2DF5F100996E7A /* PopupView */; };
+		FA526BAF2E2E70A100996E7A /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = FA526BAE2E2E70A100996E7A /* TestPlan.xctestplan */; };
+		FA526BB22E2E71FF00996E7A /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = FA526BAE2E2E70A100996E7A /* TestPlan.xctestplan */; };
+		FA526BB32E2E71FF00996E7A /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = FA526BAE2E2E70A100996E7A /* TestPlan.xctestplan */; };
 		FA75AF762E2D4EB600DE609B /* SwiftUIReorderableForEach in Frameworks */ = {isa = PBXBuildFile; productRef = FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA526BAE2E2E70A100996E7A /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		FA75AEBC2E299BCF00DE609B /* PhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA75AECE2E299BD300DE609B /* PhotoGalleryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoGalleryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA75AED82E299BD400DE609B /* PhotoGalleryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoGalleryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +90,7 @@
 		FA75AEB32E299BCE00DE609B = {
 			isa = PBXGroup;
 			children = (
+				FA526BAE2E2E70A100996E7A /* TestPlan.xctestplan */,
 				FA75AEBE2E299BCF00DE609B /* PhotoGallery */,
 				FA75AED12E299BD300DE609B /* PhotoGalleryTests */,
 				FA75AEDB2E299BD400DE609B /* PhotoGalleryUITests */,
@@ -233,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA526BAF2E2E70A100996E7A /* TestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA526BB22E2E71FF00996E7A /* TestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA526BB32E2E71FF00996E7A /* TestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

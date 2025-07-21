@@ -8,34 +8,103 @@
 import XCTest
 
 final class PhotoGalleryUITests: XCTestCase {
-
+    
+    private var app: XCUIApplication!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        app = XCUIApplication()
+        app.launchArguments.append("--ui-testing")
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+    
+    // MARK: - Helper Methods
+    
+    private func waitForPhotoToLoad() -> Bool {
+        //check 1
+        let photoCard = app.otherElements["photo_card"]
+        if photoCard.waitForExistence(timeout: 5) {
+            return true
         }
+        
+        //check 2
+        let photoCardsWithIds = app.otherElements.matching(NSPredicate(format: "identifier BEGINSWITH 'photo_card_'"))
+        if photoCardsWithIds.count > 0 {
+            return true
+        }
+        
+        sleep(5)
+        //return
+        return photoCard.exists || photoCardsWithIds.count > 0
+    }
+    
+    private func fetchPhoto() {
+        let fab = app.buttons["floating_action_button"]
+        XCTAssertTrue(fab.waitForExistence(timeout: 5), "floating_action_button should exist")
+        fab.tap()
+        XCTAssertTrue(waitForPhotoToLoad(), "Photo should load after fetching")
+    }
+    
+    // MARK: - UI Tests
+    
+    func testCanFetchAndDisplayPhoto() {
+        let fab = app.buttons["floating_action_button"]
+        XCTAssertTrue(fab.waitForExistence(timeout: 2), "floating_action_button should exist")
+        fab.tap()
+        
+        XCTAssertTrue(waitForPhotoToLoad(), "Photo should load and display")
+    }
+    
+    func testCanToggleEditMode() {
+        // Arrange - Add photo
+        fetchPhoto()
+        
+        // Act - Toggle edit mode
+        let editButton = app.buttons["edit_mode_button"]
+        XCTAssertTrue(editButton.waitForExistence(timeout: 5), "Edit button should exist")
+        editButton.tap()
+        
+        // Assert - Delete button should appear for any photo
+        let deleteButtonsWithPrefix = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'delete_button_'"))
+        let anyDeleteButton = deleteButtonsWithPrefix.element
+        XCTAssertTrue(anyDeleteButton.waitForExistence(timeout: 8), "Delete button should appear in edit mode")
+        
+        // Act - Edit mode off
+        editButton.tap()
+        
+        // Give UI time to update
+        sleep(2)
+        
+        // Assert - Delete button should disappear
+        XCTAssertFalse(anyDeleteButton.exists, "Delete button should disappear when edit mode is off")
+    }
+    
+    func testCanDeletePhotoInEditMode() {
+        // Arrange - Add photo
+        fetchPhoto()
+        
+        let editButton = app.buttons["edit_mode_button"]
+        XCTAssertTrue(editButton.waitForExistence(timeout: 5), "Edit button should exist")
+        editButton.tap()
+        
+        // Wait for edit mode to activate and delete buttons to appear
+        let deleteButtonsWithPrefix = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'delete_button_'"))
+        let anyDeleteButton = deleteButtonsWithPrefix.element
+        XCTAssertTrue(anyDeleteButton.waitForExistence(timeout: 8), "Delete button should appear in edit mode")
+        
+        // Count photos before deletion using both identifier patterns
+        let photosBeforeWithIds = app.otherElements.matching(NSPredicate(format: "identifier BEGINSWITH 'photo_card_'")).count
+        XCTAssertGreaterThan(photosBeforeWithIds, 0, "Should have at least one photo to delete")
+        
+        // Act - Delete the photo
+        anyDeleteButton.tap()
+        
+        // Give time for deletion
+        sleep(2)
+        
+        // Assert - Should have one less photo
+        let photosAfterWithIds = app.otherElements.matching(NSPredicate(format: "identifier BEGINSWITH 'photo_card_'")).count
+        XCTAssertEqual(photosAfterWithIds, photosBeforeWithIds - 1, "Should have one less photo after deletion")
     }
 }
+
