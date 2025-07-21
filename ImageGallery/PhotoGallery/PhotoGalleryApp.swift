@@ -17,6 +17,7 @@ struct PhotoGalleryApp: App {
             
             PhotoGallery(viewModel: viewModel)
                 .environment(\.managedObjectContext, persistantContext)
+                .preferredColorScheme(.light)
         }
     }
 }
