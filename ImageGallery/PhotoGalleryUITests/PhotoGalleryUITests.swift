@@ -1,13 +1,13 @@
 //
-//  ImageGalleryUITests.swift
-//  ImageGalleryUITests
+//  PhotoGalleryUITests.swift
+//  PhotoGalleryUITests
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
 
 import XCTest
 
-final class ImageGalleryUITests: XCTestCase {
+final class PhotoGalleryUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

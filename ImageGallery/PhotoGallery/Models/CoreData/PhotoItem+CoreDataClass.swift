@@ -1,6 +1,6 @@
 //
 //  PhotoItem+CoreDataClass.swift
-//  ImageGallery
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -12,7 +12,7 @@ import CoreData
 @objc(PhotoItem)
 public class PhotoItem: NSManagedObject {
     
-    convenience init(from picsumPhoto: PicsumPhoto, context: NSManagedObjectContext) {
+    convenience init(from picsumPhoto: PicsumPhoto, context: NSManagedObjectContext, gallery: Gallery? = nil) {
         self.init(context: context)
         self.id = picsumPhoto.id
         self.author = picsumPhoto.author
@@ -20,5 +20,6 @@ public class PhotoItem: NSManagedObject {
         self.height = Int32(picsumPhoto.height)
         self.url = picsumPhoto.url
         self.downloadURL = picsumPhoto.downloadURL
+        self.gallery = gallery
     }
 }

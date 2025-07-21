@@ -1,6 +1,6 @@
 //
-//  ImageGalleryApp.swift
-//  ImageGallery
+//  PhotoGalleryApp.swift
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -8,15 +8,16 @@
 import SwiftUI
 
 @main
-struct ImageGalleryApp: App {
+struct PhotoGalleryApp: App {
     let persistantContext = PersistenceController.shared.container.viewContext
 
     var body: some Scene {
         WindowGroup {
-            let viewModel = ImageGalleryViewModel(context: persistantContext)
+            let viewModel = PhotoGalleryViewModel(context: persistantContext)
             
-            ContentView(viewModel: viewModel)
+            PhotoGallery(viewModel: viewModel)
                 .environment(\.managedObjectContext, persistantContext)
+                .preferredColorScheme(.light)
         }
     }
 }

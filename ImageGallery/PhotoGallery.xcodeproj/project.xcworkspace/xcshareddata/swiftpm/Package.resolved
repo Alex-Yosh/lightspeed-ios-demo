@@ -1,0 +1,51 @@
+{
+  "originHash" : "17db2ad923f7bd1bf0113185f68ec39eee0541354cd8dcffb40078ab866cd97d",
+  "pins" : [
+    {
+      "identity" : "activityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ActivityIndicatorView",
+      "state" : {
+        "revision" : "36140867802ae4a1d2b11490bcbbefe058001d14",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "loadingbutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Changemin/LoadingButton",
+      "state" : {
+        "revision" : "5045668df822a04c248a9b40aca888a4d37f275a",
+        "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView",
+      "state" : {
+        "revision" : "6d875d432e80a65810375be102fb04ae748e9beb",
+        "version" : "4.1.11"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect",
+      "state" : {
+        "revision" : "807f73ce09a9b9723f12385e592b4e0aaebd3336",
+        "version" : "1.3.0"
+      }
+    },
+    {
+      "identity" : "swiftui-reorderable-foreach",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/globulus/swiftui-reorderable-foreach",
+      "state" : {
+        "revision" : "47f6ca1ad906ef2ae1f872ed34a10cc615ad99ca",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

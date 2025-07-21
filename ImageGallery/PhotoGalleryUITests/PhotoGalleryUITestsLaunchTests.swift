@@ -1,13 +1,13 @@
 //
-//  ImageGalleryUITestsLaunchTests.swift
-//  ImageGalleryUITests
+//  PhotoGalleryUITestsLaunchTests.swift
+//  PhotoGalleryUITests
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
 
 import XCTest
 
-final class ImageGalleryUITestsLaunchTests: XCTestCase {
+final class PhotoGalleryUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

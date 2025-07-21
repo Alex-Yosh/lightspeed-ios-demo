@@ -1,6 +1,6 @@
 //
 //  Persistence.swift
-//  ImageGallery
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -10,47 +10,54 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
     
-    @MainActor
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
+
+        viewContext.automaticallyMergesChangesFromParent = true
         
-        // Create sample PhotoItem data for previews
-        let samplePhotos = [
+        // Sample Photos for previews
+        let samplePicsumPhotos = [
             PicsumPhoto(
                 id: "0",
                 author: "Alejandro Escamilla",
                 width: 5000,
                 height: 3333,
-                url: "https://unsplash.com/photos/yC-Yzbqy7PY",
-                downloadURL: "https://picsum.photos/id/0/5000/3333"
+                url: "https://unsplash.com/Photos/yC-Yzbqy7PY",
+                downloadURL: "https://picsum.Photos/id/0/5000/3333"
             ),
             PicsumPhoto(
                 id: "1",
                 author: "Alejandro Escamilla",
                 width: 5000,
                 height: 3333,
-                url: "https://unsplash.com/photos/LNRyGwIJr5c",
-                downloadURL: "https://picsum.photos/id/1/5000/3333"
+                url: "https://unsplash.com/Photos/LNRyGwIJr5c",
+                downloadURL: "https://picsum.Photos/id/1/5000/3333"
             ),
             PicsumPhoto(
                 id: "10",
                 author: "Paul Jarvis",
                 width: 2500,
                 height: 1667,
-                url: "https://unsplash.com/photos/6J--NXulQCs",
-                downloadURL: "https://picsum.photos/id/10/2500/1667"
+                url: "https://unsplash.com/Photos/6J--NXulQCs",
+                downloadURL: "https://picsum.Photos/id/10/2500/1667"
             )
         ]
         
-        for picsumPhoto in samplePhotos {
-            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext)
+        // Create gallery
+        let defaultGallery = Gallery(context: viewContext)
+        
+        // Insert photos as PhotoItem into the gallery
+        for picsumPhoto in samplePicsumPhotos {
+            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
+            defaultGallery.addPhoto(photoItem)
         }
         
+        // Save context
         do {
             try viewContext.save()
         } catch {
-            print("Preview data creation error: \(error)")
+            print("Preview data error: \(error)")
         }
         
         return result

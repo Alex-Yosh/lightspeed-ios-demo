@@ -1,6 +1,6 @@
 //
 //  NetworkService.swift
-//  ImageGallery
+//  PhotoGallery
 //
 //  Created by Alex Yoshida on 2025-07-17.
 //
@@ -8,13 +8,13 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func fetchImages() async throws -> [PicsumPhoto]
+    func fetchPhotos() async throws -> [PicsumPhoto]
 }
 
 final class NetworkService: NetworkServiceProtocol {
     private let baseURL = "https://picsum.photos/v2/list"
     
-    func fetchImages() async throws -> [PicsumPhoto] {
+    func fetchPhotos() async throws -> [PicsumPhoto] {
         guard let url = URL(string: baseURL) else {
             throw URLError(.badURL)
         }
