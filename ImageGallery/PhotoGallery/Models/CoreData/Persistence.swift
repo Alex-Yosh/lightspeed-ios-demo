@@ -43,8 +43,12 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
+        // Create default gallery
+        let defaultGallery = Gallery(context: viewContext)
+        
         for picsumPhoto in samplePhotos {
-            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext)
+            let photoItem = PhotoItem(from: picsumPhoto, context: viewContext, gallery: defaultGallery)
+            defaultGallery.addPhoto(photoItem)
         }
         
         do {

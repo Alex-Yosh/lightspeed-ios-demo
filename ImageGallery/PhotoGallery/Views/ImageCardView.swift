@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ImageCardView: View {
     let photo: PhotoItem
+    var isEditMode: Bool = false
+    var onDelete: (() -> Void)? = nil
     
     var body: some View {
         VStack(spacing: 0) {
@@ -20,7 +22,7 @@ struct ImageCardView: View {
                     case .empty:
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color.gray.opacity(0.1))
-                            .frame(height: 100)
+                            .aspectRatio(1.2, contentMode: .fit)
                             .overlay(
                                 ProgressView()
                                     .scaleEffect(0.8)
@@ -28,13 +30,13 @@ struct ImageCardView: View {
                     case .success(let image):
                         image
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 100)
+                            .aspectRatio(1.2, contentMode: .fill)
+                            .frame(maxWidth: .infinity)
                             .clipped()
                     case .failure(_):
                         RoundedRectangle(cornerRadius: 8)
                                 .fill(Color.red.opacity(0.1))
-                                .frame(height: 100)
+                                .aspectRatio(1.2, contentMode: .fit)
                                 .overlay(
                                     Image(systemName: "exclamationmark.triangle.fill")
                                         .foregroundColor(.red)
@@ -43,7 +45,7 @@ struct ImageCardView: View {
                     @unknown default:
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color.red.opacity(0.1))
-                            .frame(height: 100)
+                            .aspectRatio(1.2, contentMode: .fit)
                             .overlay(
                                 Image(systemName: "exclamationmark.triangle.fill")
                                     .foregroundColor(.red)
@@ -88,8 +90,29 @@ struct ImageCardView: View {
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+        .overlay(
+            // delete button on edit
+            Group {
+                if isEditMode {
+                    Button(action: {
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                        impactFeedback.impactOccurred()
+                        onDelete?()
+                    }) {
+                        Image(systemName: "minus.circle.fill")
+                            .foregroundColor(.red)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                    }
+                    .offset(x: -8, y: -8)
+                    .transition(.scale.combined(with: .opacity))
+                }
+            },
+            alignment: .topLeading
+        )
+        .scaleEffect(isEditMode ? 0.92 : 1.0)
+        .modifier(WiggleEffect(isWiggling: isEditMode))
     }
-    
 }
 
 #Preview {
@@ -107,9 +130,9 @@ struct ImageCardView: View {
     failedPhoto.height = 1080
     
     return VStack(spacing: 16) {
-        ImageCardView(photo: workingPhoto)
+        ImageCardView(photo: workingPhoto, isEditMode: false)
         
-        ImageCardView(photo: failedPhoto)
+        ImageCardView(photo: failedPhoto, isEditMode: true)
     }
     .padding()
     .background(Color(.systemGroupedBackground))

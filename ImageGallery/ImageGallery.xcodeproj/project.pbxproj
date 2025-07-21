@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FA75AF762E2D4EB600DE609B /* SwiftUIReorderableForEach in Frameworks */ = {isa = PBXBuildFile; productRef = FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FA75AECF2E299BD300DE609B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA75AF762E2D4EB600DE609B /* SwiftUIReorderableForEach in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = ImageGallery;
 			packageProductDependencies = (
+				FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */,
 			);
 			productName = ImageGallery;
 			productReference = FA75AEBC2E299BCF00DE609B /* ImageGallery.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = FA75AEB32E299BCE00DE609B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FA75AEBD2E299BCF00DE609B /* Products */;
 			projectDirPath = "";
@@ -558,6 +567,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-reorderable-foreach";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA75AF752E2D4EB600DE609B /* SwiftUIReorderableForEach */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA75AF742E2D4D5D00DE609B /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */;
+			productName = SwiftUIReorderableForEach;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA75AEB42E299BCE00DE609B /* Project object */;
 }

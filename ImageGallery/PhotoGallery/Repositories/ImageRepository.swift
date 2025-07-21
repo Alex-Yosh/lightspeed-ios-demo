@@ -10,19 +10,28 @@ import CoreData
 
 protocol ImageRepositoryProtocol {
     func fetchAndSaveRandomImage() async throws
-    func fetchAllSavedPhotos() throws -> [PhotoItem]
-    func deletePhoto(_ photo: PhotoItem) throws
-    func deletePhotos(at indices: IndexSet, from photos: [PhotoItem]) throws
-    func reorderPhotos(from source: Int, to destination: Int, in photos: inout [PhotoItem]) throws
+    func fetchGallery() throws -> Gallery
+    func deletePhoto(_ photo: PhotoItem) async throws
+    func exitEditMode(currentPhotos: [PhotoItem], gallery: Gallery) throws
+    func getCurrentPhotos(from gallery: Gallery) -> [PhotoItem]
+    func startObservingDataChanges(onDataChanged: @escaping () -> Void)
 }
 
 class ImageRepository: ImageRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let context: NSManagedObjectContext
+    private var dataChangeObserver: NSObjectProtocol?
     
     init(networkService: NetworkServiceProtocol = NetworkService(), context: NSManagedObjectContext) {
         self.networkService = networkService
         self.context = context
+    }
+    
+    deinit {
+        // delete observer
+        if let observer = dataChangeObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func fetchAndSaveRandomImage() async throws {
@@ -42,29 +51,55 @@ class ImageRepository: ImageRepositoryProtocol {
             throw ImageRepositoryError.allPhotosAlreadySaved
         }
         
-        // 4. Create PhotoItem
-        let _ = PhotoItem(from: randomPhoto, context: context)
+        // 4. Get or create gallery
+        let gallery = try fetchGallery()
         
-        // 5. Save to Core Data
+        // 5. Create PhotoItem and add to gallery
+        let photoItem = PhotoItem(from: randomPhoto, context: context, gallery: gallery)
+        gallery.addPhoto(photoItem)
+        
+        // 6. Save to Core Data
         try context.save()
     }
     
-    func fetchAllSavedPhotos() throws -> [PhotoItem] {
-        let fetchRequest: NSFetchRequest<PhotoItem> = PhotoItem.fetchRequest()
+    // gets existing gallery or creates one if none exist
+    func fetchGallery() throws -> Gallery {
+        let fetchRequest: NSFetchRequest<Gallery> = Gallery.fetchRequest()
         
-        return try context.fetch(fetchRequest)
+        if let existingGallery = try context.fetch(fetchRequest).first {
+            return existingGallery
+        } else {
+            let gallery = Gallery(context: context)
+            try context.save()
+            return gallery
+        }
     }
     
-    func deletePhoto(_ photo: PhotoItem) throws {
-        // TODO: Implement
+    func deletePhoto(_ photo: PhotoItem) async throws {
+        if let gallery = photo.gallery {
+            gallery.removePhoto(photo)
+        }
+        context.delete(photo)
+        try context.save()
     }
     
-    func deletePhotos(at indices: IndexSet, from photos: [PhotoItem]) throws {
-        // TODO: Implement
+    func exitEditMode(currentPhotos: [PhotoItem], gallery: Gallery) throws {
+        gallery.replacePhotos(with: currentPhotos)
+        try context.save()
     }
     
-    func reorderPhotos(from source: Int, to destination: Int, in photos: inout [PhotoItem]) throws {
-        // TODO: Implement
+    func getCurrentPhotos(from gallery: Gallery) -> [PhotoItem] {
+        return gallery.photosArray
+    }
+    
+    func startObservingDataChanges(onDataChanged: @escaping () -> Void) {
+        dataChangeObserver = NotificationCenter.default.addObserver(
+            forName: .NSManagedObjectContextObjectsDidChange,
+            object: context,
+            queue: .main
+        ) { _ in
+            onDataChanged()
+        }
     }
     
     // MARK: - Helpers

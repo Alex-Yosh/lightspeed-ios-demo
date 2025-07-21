@@ -22,6 +22,7 @@ extension PhotoItem {
     @NSManaged public var height: Int32
     @NSManaged public var url: String
     @NSManaged public var downloadURL: String
+    @NSManaged public var gallery: Gallery?
 
 }
 

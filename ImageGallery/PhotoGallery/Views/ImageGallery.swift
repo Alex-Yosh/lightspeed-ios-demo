@@ -7,14 +7,31 @@
 
 import SwiftUI
 import CoreData
+import SwiftUIReorderableForEach
 
 struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
     
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
+        GridItem(.flexible(minimum: 100), spacing: 12),
+        GridItem(.flexible(minimum: 100), spacing: 12),
     ]
+    
+    private var photoCountText: String {
+        "\(viewModel.images.count) photos"
+    }
+    
+    private var editButtonText: String {
+        viewModel.isEditMode ? "Done" : "Edit"
+    }
+    
+    private var addButtonText: String {
+        viewModel.isLoading ? "Adding Photo..." : "Add Random Photo"
+    }
+    
+    private var addButtonBackground: Color {
+        viewModel.isLoading ? Color.gray : Color.blue
+    }
     
     var body: some View {
         VStack() {
@@ -25,16 +42,16 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
                         Text("Gallery")
                             .font(.title)
                             .fontWeight(.bold)
-                        Text("\(viewModel.images.count) photos")
+                        Text(photoCountText)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                     Spacer()
                     
                     Button(action: {
-                        
+                        viewModel.toggleEditMode()
                     }) {
-                        Text("Edit")
+                        Text(editButtonText)
                     }
                 }
                 
@@ -42,15 +59,22 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
                     Task { await viewModel.fetchRandomImage() }
                 }) {
                     HStack {
-                        Image(systemName: "camera.fill")
-                        Text("Add Random Photo")
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                                .foregroundColor(.white)
+                        } else {
+                            Image(systemName: "camera.fill")
+                        }
+                        Text(addButtonText)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
-                    .background(Color.blue)
+                    .background(addButtonBackground)
                     .foregroundColor(.white)
                     .cornerRadius(10)
                 }
+                .disabled(viewModel.isLoading)
             }
             .padding(.horizontal, 16)
             .padding(.horizontal, 8)
@@ -59,8 +83,21 @@ struct ImagGallery<ViewModel: ImageGalleryViewModelProtocol>: View {
             // Photos
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(viewModel.images, id: \.self) { photo in
-                        ImageCardView(photo: photo)
+                    ReorderableForEach(
+                        $viewModel.images,
+                        allowReordering: $viewModel.isEditMode
+                    ) { photo, isDragging in
+                        ImageCardView(
+                            photo: photo,
+                            isEditMode: viewModel.isEditMode,
+                            onDelete: {
+                                Task {
+                                    await viewModel.deletePhoto(photo)
+                                }
+                            }
+                        )
+                        .scaleEffect(isDragging ? 1.05 : 1.0)
+                        .opacity(isDragging ? 0.7 : 1.0)
                     }
                 }
                 .padding(.horizontal, 16)
